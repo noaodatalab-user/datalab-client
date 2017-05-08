@@ -1,0 +1,22 @@
+Metadata-Version: 1.1
+Name: datalab
+Version: 2.0.2
+Summary: Tools for interacting with NOAO DataLab.
+Home-page: https://github.noao.edu/mjg/datalab
+Author: M.J. Graham
+Author-email: graham@noao.edu
+License: UNKNOWN
+Description: A command line tool for interacting with the NOAO DataLab including VOSpace FUSE layer
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python
+Requires: requests (>=2.7)
+Requires: argparse
+Requires: lxml
+Requires: httplib2
