@@ -33,7 +33,6 @@ import json
 #####################################
 
 
-#DEF_SERVICE_URL = "http://dldev.datalab.noao.edu/query"
 DEF_SERVICE_URL = "http://dlsvcs.datalab.noao.edu/query"
 SM_SERVICE_URL = "http://dlsvcs.datalab.noao.edu/storage"
 PROFILE = "default"
@@ -165,22 +164,24 @@ def query(token, adql=None, sql=None, fmt='csv', out=None, async=False, **kw):
     if PROFILE != "default":
         dburl += "&profile=%s" % PROFILE
 
-    r = requests.get(dburl, headers=headers)
+    try:
+        r = requests.get(dburl, headers=headers)
 
-    if r.status_code != 200:
-        print ("etext: " + r.text)
-        print ("econtent: " + r.content)
-        raise queryClientError("Error in query: " + r.text)
+        if r.status_code != 200:
+            raise queryClientError("Error in query: " + r.text)
 
-    if (out is not None and out != '') and not async:
-        if out[:7] == 'file://':
-            out = out[7:]
-        if ':' not in out or out[:out.index(':')] not in ['vos', 'mydb']:
-            file = open(out, 'wb', 0)
-            file.write(r.content)
-            file.close()
-    else:
-        return r.content
+        if (out is not None and out != '') and not async:
+            if out[:7] == 'file://':
+                out = out[7:]
+            if ':' not in out or out[:out.index(':')] not in ['vos', 'mydb']:
+                file = open(out, 'wb', 0)
+                file.write(r.content)
+                file.close()
+        else:
+            return r.content
+    
+    except Exception as e:
+        raise queryClientError(e.message)
 
     return "OK"
 
@@ -391,7 +392,7 @@ def get_svc_url():
 
 # LIST_PROFILES -- Get the profiles supported by the query manager service
 #
-def list_profiles(token, profile=None):
+def list_profiles(token, profile=None, format='text'):
     """Retrieve the profiles supported by the query manager service
 
     Parameters
@@ -419,9 +420,10 @@ def list_profiles(token, profile=None):
 
     headers = {'Content-Type': 'text/ascii',
                'X-DL-AuthToken': token}  # application/x-sql
-    dburl = '%s/profiles' % DEF_SERVICE_URL
+    dburl = '%s/profiles?' % DEF_SERVICE_URL
     if profile != None and profile != 'None' and profile != '':
-        dburl += "/%s" % profile
+        dburl += "profile=%s&" % profile
+    dburl += "format=%s" % format
 
     r = requests.get(dburl, headers=headers)
     profiles = r.content
@@ -507,10 +509,42 @@ def list(token, table=''):
         queryClient.list()
     """
 
-    headers = {'Content-Type': 'text/ascii',
-               'X-DL-AuthToken': token}  # application/x-sql
+    headers = {'X-DL-AuthToken': token}
     dburl = '%s/list?table=%s' % (DEF_SERVICE_URL, table)
     r = requests.get(dburl, headers=headers)
+    return r.content
+
+
+
+# SCHEMA -- Return information about a data service schema value.
+#
+def schema(value, format, profile):
+    """ 
+        Return information about a data service schema value.
+
+        Parameters
+        ----------
+        value : str
+        format : str
+        profile : str
+            The name of the profile to use. The list of available ones can be
+            retrieved from the service (see function :func:`queryClient.list_profiles()`)
+
+    Returns
+    -------
+
+    Example
+    -------
+
+    .. code-block:: python
+
+        # set the profile
+        queryClient.schema("usno.a2.raj2000","text","default")
+    """
+
+    url = '%s/schema?value=%s&format=%s&profile=%s' % \
+            (DEF_SERVICE_URL, (value), str(format), str(profile))
+    r = requests.get(url)
     return r.content
 
 

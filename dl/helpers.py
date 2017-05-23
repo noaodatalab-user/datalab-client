@@ -1,7 +1,7 @@
 """Helper classes and methods for datalab client."""
 
 __authors__ = 'Robert Nikutta <nikutta@noao.edu>, Data Lab <datalab@noao.edu>'
-__version__ = '20170504' # yyyymmdd
+__version__ = '20170505' # yyyymmdd
 
 # std lib imports
 from functools import partial
@@ -19,6 +19,7 @@ from astropy.io.votable import parse_single_table
 from astropy.coordinates import SkyCoord
 import astropy.units as u
 import shapely.geometry as geo
+from matplotlib.ticker import MaxNLocator
 
 # Data Lab imports
 from dl import authClient, queryClient
@@ -82,11 +83,13 @@ class Querist:
         if username == 'anonymous':
             token = authClient.login('anonymous','')
         else:
-            token = authClient.login(username,getpass.getpass())
+#            print "Enter password:"
+            token = authClient.login(username,getpass.getpass(prompt='Enter password:'))
 
         if not authClient.isValidToken(token):
             raise Exception, "Invalid user name and/or password provided. Please try again."
         else:
+            print "Authentication successful."
             return token
 
         
