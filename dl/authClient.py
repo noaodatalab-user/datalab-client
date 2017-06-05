@@ -6,7 +6,7 @@
 from __future__ import print_function
 
 __authors__ = 'Mike Fitzpatrick <fitz@noao.edu>, Data Lab <datalab@noao.edu>'
-__version__ = '20170430'  # yyyymmdd
+__version__ = '20170530'  # yyyymmdd
 
 
 """ 
@@ -41,7 +41,7 @@ TEST_TOKEN = "dltest.99998.99998.test_access"
 # The URL of the AuthManager service to contact.  This may be changed by
 # passing a new URL into the set_service() method before beginning.
 
-DEF_SERVICE_URL = "http://dlsvcs.datalab.noao.edu/auth"
+DEF_SERVICE_URL = "https://dlsvcs.datalab.noao.edu/auth"
 
 # The requested authentication "profile".  A profile refers to the specific
 # machines and services used by the AuthManager on the server.
@@ -347,11 +347,13 @@ class authClient (object):
         """
         try:
             request = Request(svc_url)
-            response = urlopen(request).read()
+            response = urlopen(request,timeout=2)
+            output = response.read()
+            status_code = response.code
         except Exception:
             return False
         else:
-            return (True if response is not None else False)
+            return (True if (output is not None and status_code == 200) else False)
 
 
     ###################################################

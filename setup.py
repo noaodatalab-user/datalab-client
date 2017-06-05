@@ -26,11 +26,11 @@ except:
 
 setup(name="datalab",
       version="2.0.3",
-      url="https://github.noao.edu/mjg/datalab",
-      description="Tools for interacting with NOAO DataLab.",
+      url="https://github.noao.edu/datalab/datalab",
+      description="Tools for interacting with NOAO Data Lab.",
       author="M.J. Graham",
       author_email="graham@noao.edu",
-      long_description="A command line tool for interacting with the NOAO DataLab including VOSpace FUSE layer",
+      long_description="A command line tool for interacting with the NOAO Data Lab including VOSpace FUSE layer",
       packages=find_packages(exclude=['test.*']),
       package_data ={
         'datalab': ['caps/*']
