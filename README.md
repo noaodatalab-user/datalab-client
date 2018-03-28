@@ -26,7 +26,7 @@ distribution and install via:
 
 ```
 git clone http://github.com/noao-datalab/datalab-client.git
-cd datalab
+cd datalab-client
 python setup.py install
 ```
 
