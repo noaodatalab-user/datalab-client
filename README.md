@@ -1,4 +1,6 @@
 
+# NOTE: As of January 3, 2019, datalab-client is deprecated.  Please visit https://github.com/noaodatalab/noaodatalab for the latest version
+
 # DOCUMENTATION
 
 <b>datalab</b> is command-line Python client for the [NOAO DataLab](http://datalab.noao.edu).
