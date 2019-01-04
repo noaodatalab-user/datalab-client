@@ -1,5 +1,5 @@
 
-# NOTE: As of January 3, 2019, datalab-client is deprecated.  Please visit https://github.com/noaodatalab/noaodatalab for the latest version
+# NOTE: As of January 3, 2019, datalab-client is deprecated.  Please visit https://github.com/noaodatalab/datalab for the latest version
 
 # DOCUMENTATION
 
